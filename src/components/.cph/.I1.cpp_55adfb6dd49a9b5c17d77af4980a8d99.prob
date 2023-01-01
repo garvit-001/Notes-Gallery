@@ -1,0 +1,1 @@
+{"name":"Local: I1","url":"h:\\Notes Gallery\\notesgallery\\src\\components\\I1.cpp","tests":[{"id":1672242123018,"input":"3\n4\nabab\n6\nabccda\n4\naaaa","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"h:\\Notes Gallery\\notesgallery\\src\\components\\I1.cpp","group":"local","local":true}

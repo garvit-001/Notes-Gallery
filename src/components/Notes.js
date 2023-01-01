@@ -1,26 +1,53 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NoteContext from "../context/notes/NoteContext";
 import AddNote from "./AddNote";
 import NoteItem from "./NoteItem";
 
 const Notes = () => {
   const context = useContext(NoteContext);
-  const { notes, getNotes } = context;
+  const { notes, getNotes, editNote } = context;
+  const [note, setNote] = useState({
+    id: "",
+    etitle: "",
+    edescription: "",
+    etag: "",
+  });
+  const ref = useRef(null);
+  const refClose = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getNotes();
+    if (localStorage.getItem("authToken")) {
+      getNotes();
+    } else {
+      navigate("/login");
+    }
     // eslint-disable-next-line
   }, []);
 
-  const updateNote = (note) => {
+  const updateNote = (currNote) => {
     ref.current.click();
+    setNote({
+      id: currNote._id,
+      etitle: currNote.title,
+      edescription: currNote.description,
+      etag: currNote.tag,
+    });
   };
 
-  const ref = useRef(null);
+  const handleClick = (e) => {
+    e.preventDefault();
+    editNote(note.id, note.etitle, note.edescription, note.etag);
+    refClose.current.click();
+    setNote({ etitle: "", edescription: "", etag: "" });
+  };
+  const onChange = (e) => {
+    setNote({ ...note, [e.target.name]: e.target.value });
+  };
   return (
     <>
       <AddNote />
-
       <button
         ref={ref}
         type="button"
@@ -61,9 +88,11 @@ const Notes = () => {
                     className="form-control"
                     id="etitle"
                     name="etitle"
-                    // value={note.etitle}
+                    value={note.etitle}
                     aria-describedby="emailHelp"
-                    // onChange={onChange}
+                    onChange={onChange}
+                    required={true}
+                    minLength={5}
                   />
                 </div>
                 <div className="mb-3">
@@ -75,8 +104,10 @@ const Notes = () => {
                     className="form-control"
                     id="edescription"
                     name="edescription"
-                    // value={note.edescription}
-                    // onChange={onChange}
+                    value={note.edescription}
+                    onChange={onChange}
+                    required={true}
+                    minLength={5}
                   />
                 </div>
                 <div className="mb-3">
@@ -88,8 +119,10 @@ const Notes = () => {
                     className="form-control"
                     id="etag"
                     name="etag"
-                    // value={note.etag}
-                    // onChange={onChange}
+                    value={note.etag}
+                    onChange={onChange}
+                    required={true}
+                    minLength={5}
                   />
                 </div>
               </form>
@@ -99,13 +132,17 @@ const Notes = () => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                ref={refClose}
               >
                 Close
               </button>
               <button
-                // onClick={handleClick}
+                onClick={handleClick}
                 type="button"
                 className="btn btn-primary"
+                disabled={
+                  note.etitle.length < 5 || note.edescription.length < 5
+                }
               >
                 Update Note
               </button>
@@ -113,13 +150,14 @@ const Notes = () => {
           </div>
         </div>
       </div>
-
       <div className="row m-3">
-        {notes.map((note) => {
-          return (
-            <NoteItem note={note} updateNote={updateNote} key={note._id} />
-          );
-        })}
+        {notes.length === 0
+          ? "Nothing to display"
+          : notes.map((note) => {
+              return (
+                <NoteItem note={note} updateNote={updateNote} key={note._id} />
+              );
+            })}
       </div>
     </>
   );
