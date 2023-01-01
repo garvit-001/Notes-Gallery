@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid d-flex">
+        <div className="container-fluid d-flex justify-content-start">
           <Link
             className={`nav-link mx-2 navbar-brand ${
               location.pathname === "/" ? "active" : ""

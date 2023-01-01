@@ -19,7 +19,7 @@ const NotesState = (props) => {
     });
     // showing the changes in frontend
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     setNotes(json);
   };
 

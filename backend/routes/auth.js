@@ -57,7 +57,7 @@ router.post(
       const authToken = jwt.sign(data, JWT_SECRET);
       res.json({ success, authToken });
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
       res.status(500).json("Some error occured");
     }
     // .then((user) => res.json(user))
@@ -110,7 +110,7 @@ router.post(
       success = true;
       res.json({ success, authToken });
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
       res.status(500).json("Internal server error");
     }
   }
@@ -134,7 +134,7 @@ router.post("/fetchuser", fetchuser, async (req, res) => {
     }
     res.send(user);
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
     res.status(500).json("Internal server error");
   }
 });

@@ -11,7 +11,7 @@ router.get("/fetchallnotes", fetchuser, async (req, res) => {
     const notes = await Notes.find({ user: req.user.id });
     res.send(notes);
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
     res.status(500).json("Some error occured");
   }
 });
@@ -84,7 +84,7 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
     );
     res.json(note);
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
     res.status(500).json("Some error occured");
   }
 });
@@ -111,7 +111,7 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
     note = await Notes.findByIdAndDelete(req.params.id);
     res.json({ success: "note deleted successfully" });
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
     res.status(500).json("Some error occured");
   }
 });
