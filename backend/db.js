@@ -1,7 +1,13 @@
 const mongoose = require("mongoose");
-const mongoURI =
-  "mongodb+srv://garvit_001:INTERNDEDo%40123@cluster0.8di5gau.mongodb.net/test";
+const dotenv = require("dotenv");
 
+dotenv.config();
+const mongoURI = process.env.mongoURI;
+if (mongoURI) {
+  console.log("MongoDB link:", mongoURI);
+} else {
+  console.error("MONGODB_LINK not found in .env file");
+}
 mongoose.set("strictQuery", false);
 
 const connectToMongo = () => {
